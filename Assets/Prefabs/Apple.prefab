@@ -125,3 +125,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39626fec88d05a45be09c2946b26da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSItem
+  sellPrice: 1

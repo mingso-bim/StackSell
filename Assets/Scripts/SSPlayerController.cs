@@ -24,7 +24,10 @@ public class SSPlayerController : MonoBehaviour
     private void HandleMovement()
     {
         if (Keyboard.current == null)
+        {
+            Debug.LogWarning($"{name}: Keyboard.current가 없어 입력을 처리할 수 없습니다.");
             return;
+        }
 
         Vector2 input = Vector2.zero;
 

@@ -31,4 +31,23 @@ public class SSPlayerCollector : MonoBehaviour
 
         item.transform.localRotation = Quaternion.identity;
     }
+
+    public bool IsEmpty()
+    {
+        return collectedItems.Count == 0;
+    }
+
+    public SSItem RemoveOneItem()
+    {
+        if (IsEmpty())
+            return null;
+
+        int lastIndex = collectedItems.Count - 1;
+
+        SSItem item = collectedItems[lastIndex];
+
+        collectedItems.RemoveAt(lastIndex);
+
+        return item;
+    }
 }

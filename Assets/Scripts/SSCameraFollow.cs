@@ -16,7 +16,10 @@ public class SSCameraFollow : MonoBehaviour
     private void LateUpdate()
     {
         if (target == null)
+        {
+            Debug.LogWarning($"{name}: target이 설정되지 않아 카메라를 따라가지 않습니다.");
             return;
+        }
 
         transform.position = target.position + offset;
     }
