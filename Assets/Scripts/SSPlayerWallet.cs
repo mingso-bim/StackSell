@@ -11,4 +11,14 @@ public class SSPlayerWallet : MonoBehaviour
     {
         gold += amount;
     }
+
+    public bool TrySpendGold(int amount)
+    {
+        if (gold < amount)
+            return false;
+
+        gold -= amount;
+
+        return true;
+    }
 }

@@ -12,7 +12,14 @@ public class SSPlayerCollector : MonoBehaviour
     [SerializeField]
     private int maxCapacity = 5;
 
+    public int MaxCapacity => maxCapacity;
+
     private readonly List<SSItem> collectedItems = new();
+
+    public void SetMaxCapacity(int newCapacity)
+    {
+        maxCapacity = newCapacity;
+    }
 
     public bool IsFull()
     {

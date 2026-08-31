@@ -7,6 +7,8 @@ public class SSPlayerController : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 5f;
 
+    public float MoveSpeed => moveSpeed;
+
     private CharacterController characterController;
 
 
@@ -19,6 +21,11 @@ public class SSPlayerController : MonoBehaviour
     private void Update()
     {
         HandleMovement();
+    }
+
+    public void SetMoveSpeed(float newSpeed)
+    {
+        moveSpeed = newSpeed;
     }
 
     private void HandleMovement()
