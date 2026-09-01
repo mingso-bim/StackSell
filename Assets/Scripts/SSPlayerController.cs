@@ -7,6 +7,9 @@ public class SSPlayerController : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 5f;
 
+    [SerializeField]
+    private SSFloatingJoystick floatingJoystick;
+
     public float MoveSpeed => moveSpeed;
 
     private CharacterController characterController;
@@ -30,11 +33,28 @@ public class SSPlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (Keyboard.current == null)
+        Vector2 keyboardInput = ReadKeyboardInput();
+        Vector2 joystickInput = floatingJoystick != null ? floatingJoystick.InputVector : Vector2.zero;
+
+        Vector2 input = Vector2.ClampMagnitude(keyboardInput + joystickInput, 1f);
+
+        Vector3 moveDirection =
+            new Vector3(input.x, 0f, input.y).normalized;
+
+        characterController.Move(
+            moveDirection * moveSpeed * Time.deltaTime
+        );
+
+        if (moveDirection.sqrMagnitude > 0f)
         {
-            Debug.LogWarning($"{name}: Keyboard.current가 없어 입력을 처리할 수 없습니다.");
-            return;
+            transform.forward = moveDirection;
         }
+    }
+
+    private Vector2 ReadKeyboardInput()
+    {
+        if (Keyboard.current == null)
+            return Vector2.zero;
 
         Vector2 input = Vector2.zero;
 
@@ -50,16 +70,6 @@ public class SSPlayerController : MonoBehaviour
         if (Keyboard.current.aKey.isPressed)
             input.x -= 1f;
 
-        Vector3 moveDirection =
-            new Vector3(input.x, 0f, input.y).normalized;
-
-        characterController.Move(
-            moveDirection * moveSpeed * Time.deltaTime
-        );
-
-        if (moveDirection.sqrMagnitude > 0f)
-        {
-            transform.forward = moveDirection;
-        }
+        return input;
     }
 }

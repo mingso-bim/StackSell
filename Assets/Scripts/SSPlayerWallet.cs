@@ -7,6 +7,11 @@ public class SSPlayerWallet : MonoBehaviour
 
     public int Gold => gold;
 
+    public void SetGold(int amount)
+    {
+        gold = amount;
+    }
+
     public void AddGold(int amount)
     {
         gold += amount;
