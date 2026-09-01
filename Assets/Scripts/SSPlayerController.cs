@@ -14,6 +14,9 @@ public class SSPlayerController : MonoBehaviour
 
     private CharacterController characterController;
 
+    [SerializeField]
+    private Animator animator;
+
 
     private void Awake()
     {
@@ -37,6 +40,8 @@ public class SSPlayerController : MonoBehaviour
         Vector2 joystickInput = floatingJoystick != null ? floatingJoystick.InputVector : Vector2.zero;
 
         Vector2 input = Vector2.ClampMagnitude(keyboardInput + joystickInput, 1f);
+
+        animator.SetFloat("Speed", input.magnitude);
 
         Vector3 moveDirection =
             new Vector3(input.x, 0f, input.y).normalized;
