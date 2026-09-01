@@ -73,7 +73,7 @@ public class SSItemZone : MonoBehaviour
         {
             if (!collector.IsFull())
             {
-                SSItem item = Instantiate(itemPrefab);
+                SSItem item = Instantiate(itemPrefab, transform.position, transform.rotation);
 
                 collector.Collect(item);
             }

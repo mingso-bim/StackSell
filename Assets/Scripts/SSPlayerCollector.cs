@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,9 @@ public class SSPlayerCollector : MonoBehaviour
 
     [SerializeField]
     private int maxCapacity = 5;
+
+    [SerializeField]
+    private float moveDuration = 0.15f;
 
     public int MaxCapacity => maxCapacity;
 
@@ -34,9 +38,35 @@ public class SSPlayerCollector : MonoBehaviour
 
         int index = collectedItems.Count - 1;
 
-        item.transform.localPosition = new Vector3(0f, index * stackSpacing, 0f);
+        Vector3 targetLocalPosition = new Vector3(0f, index * stackSpacing, 0f);
 
         item.transform.localRotation = Quaternion.identity;
+
+        StartCoroutine(MoveItemToStack(item, targetLocalPosition));
+    }
+
+    private IEnumerator MoveItemToStack(SSItem item, Vector3 targetLocalPosition)
+    {
+        Vector3 startLocalPosition = item.transform.localPosition;
+        float elapsed = 0f;
+
+        while (elapsed < moveDuration)
+        {
+            if (item == null)
+                yield break;
+
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / moveDuration);
+
+            item.transform.localPosition = Vector3.Lerp(startLocalPosition, targetLocalPosition, t);
+
+            yield return null;
+        }
+
+        if (item == null)
+            yield break;
+
+        item.transform.localPosition = targetLocalPosition;
     }
 
     public bool IsEmpty()
