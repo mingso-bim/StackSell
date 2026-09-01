@@ -12,6 +12,9 @@ public class SSItemZone : MonoBehaviour
     [SerializeField]
     private float actionInterval = 0.2f;
 
+    [SerializeField]
+    private float sellMoveDuration = 0.15f;
+
     private Coroutine productionCoroutine;
 
     private void OnTriggerEnter(Collider other)
@@ -92,10 +95,37 @@ public class SSItemZone : MonoBehaviour
             {
                 wallet.AddGold(soldItem.SellPrice);
 
-                Destroy(soldItem.gameObject);
+                soldItem.transform.SetParent(null);
+
+                StartCoroutine(MoveItemToZoneAndDestroy(soldItem));
             }
 
             yield return new WaitForSeconds(actionInterval);
         }
+    }
+
+    private IEnumerator MoveItemToZoneAndDestroy(SSItem item)
+    {
+        Vector3 startPosition = item.transform.position;
+        Vector3 targetPosition = transform.position;
+        float elapsed = 0f;
+
+        while (elapsed < sellMoveDuration)
+        {
+            if (item == null)
+                yield break;
+
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / sellMoveDuration);
+
+            item.transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+
+            yield return null;
+        }
+
+        if (item == null)
+            yield break;
+
+        Destroy(item.gameObject);
     }
 }
