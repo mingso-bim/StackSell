@@ -14,6 +14,16 @@ public class SSPlayerUpgrade : MonoBehaviour
     [SerializeField]
     private SSPlayerWallet playerWallet;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip upgradeSfx;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float upgradeVolume = 1f;
+
     private int speedUpgradeCount;
     private int capacityUpgradeCount;
 
@@ -35,6 +45,8 @@ public class SSPlayerUpgrade : MonoBehaviour
 
         playerController.SetMoveSpeed(newSpeed);
 
+        PlayUpgradeSfx();
+
         speedUpgradeCount++;
     }
 
@@ -50,6 +62,16 @@ public class SSPlayerUpgrade : MonoBehaviour
 
         playerCollector.SetMaxCapacity(newCapacity);
 
+        PlayUpgradeSfx();
+
         capacityUpgradeCount++;
+    }
+
+    private void PlayUpgradeSfx()
+    {
+        if (audioSource == null || upgradeSfx == null)
+            return;
+
+        audioSource.PlayOneShot(upgradeSfx, upgradeVolume);
     }
 }

@@ -16,6 +16,16 @@ public class SSPlayerCollector : MonoBehaviour
     [SerializeField]
     private float moveDuration = 0.15f;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip collectSfx;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float collectVolume = 1f;
+
     public int MaxCapacity => maxCapacity;
 
     private readonly List<SSItem> collectedItems = new();
@@ -34,6 +44,8 @@ public class SSPlayerCollector : MonoBehaviour
     {
         collectedItems.Add(item);
 
+        PlayCollectSfx();
+
         item.transform.SetParent(stackRoot);
 
         int index = collectedItems.Count - 1;
@@ -43,6 +55,14 @@ public class SSPlayerCollector : MonoBehaviour
         item.transform.localRotation = Quaternion.identity;
 
         StartCoroutine(MoveItemToStack(item, targetLocalPosition));
+    }
+
+    private void PlayCollectSfx()
+    {
+        if (audioSource == null || collectSfx == null)
+            return;
+
+        audioSource.PlayOneShot(collectSfx, collectVolume);
     }
 
     private IEnumerator MoveItemToStack(SSItem item, Vector3 targetLocalPosition)

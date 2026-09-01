@@ -15,6 +15,16 @@ public class SSItemZone : MonoBehaviour
     [SerializeField]
     private float sellMoveDuration = 0.15f;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip sellSfx;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float sellVolume = 1f;
+
     private Coroutine productionCoroutine;
 
     private void OnTriggerEnter(Collider other)
@@ -95,6 +105,8 @@ public class SSItemZone : MonoBehaviour
             {
                 wallet.AddGold(soldItem.SellPrice);
 
+                PlaySellSfx();
+
                 soldItem.transform.SetParent(null);
 
                 StartCoroutine(MoveItemToZoneAndDestroy(soldItem));
@@ -102,6 +114,14 @@ public class SSItemZone : MonoBehaviour
 
             yield return new WaitForSeconds(actionInterval);
         }
+    }
+
+    private void PlaySellSfx()
+    {
+        if (audioSource == null || sellSfx == null)
+            return;
+
+        audioSource.PlayOneShot(sellSfx, sellVolume);
     }
 
     private IEnumerator MoveItemToZoneAndDestroy(SSItem item)
