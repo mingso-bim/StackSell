@@ -14,6 +14,11 @@ public class SSSaveSystem : MonoBehaviour
     [SerializeField]
     private SSPlayerCollector playerCollector;
 
+    [SerializeField]
+    private SSPlayerUpgrade playerUpgrade;
+
+    public bool GameCleared { get; private set; }
+
     private string SavePath => Path.Combine(Application.persistentDataPath, "savedata.json");
 
     private void Start()
@@ -30,6 +35,9 @@ public class SSSaveSystem : MonoBehaviour
                 gold = playerWallet.Gold,
                 moveSpeed = playerController.MoveSpeed,
                 maxCapacity = playerCollector.MaxCapacity,
+                speedUpgradeCount = playerUpgrade.SpeedUpgradeCount,
+                capacityUpgradeCount = playerUpgrade.CapacityUpgradeCount,
+                gameCleared = GameCleared,
             };
 
             string json = JsonUtility.ToJson(data);
@@ -62,11 +70,21 @@ public class SSSaveSystem : MonoBehaviour
             playerWallet.SetGold(data.gold);
             playerController.SetMoveSpeed(data.moveSpeed);
             playerCollector.SetMaxCapacity(data.maxCapacity);
+            playerUpgrade.RestoreUpgradeCounts(data.speedUpgradeCount, data.capacityUpgradeCount);
+            GameCleared = data.gameCleared;
         }
         catch (Exception e)
         {
             Debug.LogWarning($"{name}: 불러오기에 실패했습니다. {e.Message}");
         }
+    }
+
+    // 두 업그레이드가 모두 MAX가 되어 게임 클리어 처리될 때 호출한다.
+    public void MarkGameCleared()
+    {
+        GameCleared = true;
+
+        Save();
     }
 
     private void OnApplicationPause(bool pauseStatus)

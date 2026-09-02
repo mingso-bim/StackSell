@@ -12,12 +12,10 @@ public class SSTutorialUI : MonoBehaviour
     private void Awake()
     {
         // 씬 시작 시 표시 여부를 결정한다. 이미 완료했다면 Overlay를 표시하지 않는다.
-        if (PlayerPrefs.GetInt(TutorialDoneKey, 0) == 0)
-        {
+        if (PlayerPrefs.GetInt(TutorialDoneKey, 0) == 1)
             gameObject.SetActive(false);
-        }
-
-        gameUIRoot.SetActive(false);
+        else
+            gameUIRoot.SetActive(false);
     }
 
     // TutorialOverlay의 Button OnClick에 연결한다.
