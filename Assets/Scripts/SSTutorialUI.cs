@@ -1,20 +1,32 @@
-using System.Collections;
 using UnityEngine;
 
+// TutorialOverlay에 부착. 전체화면 투명 Image + Button이 터치를 받고,
+// Button OnClick에서 CompleteTutorial()를 호출한다.
 public class SSTutorialUI : MonoBehaviour
 {
-    [SerializeField]
-    private float displayDuration = 5f;
+    private const string TutorialDoneKey = "SS_TutorialDone";
 
-    private void Start()
+    [SerializeField] 
+    private GameObject gameUIRoot;
+
+    private void Awake()
     {
-        StartCoroutine(HideAfterDelay());
+        // 씬 시작 시 표시 여부를 결정한다. 이미 완료했다면 Overlay를 표시하지 않는다.
+        if (PlayerPrefs.GetInt(TutorialDoneKey, 0) == 0)
+        {
+            gameObject.SetActive(false);
+        }
+
+        gameUIRoot.SetActive(false);
     }
 
-    private IEnumerator HideAfterDelay()
+    // TutorialOverlay의 Button OnClick에 연결한다.
+    public void CompleteTutorial()
     {
-        yield return new WaitForSeconds(displayDuration);
+        PlayerPrefs.SetInt(TutorialDoneKey, 1);
+        PlayerPrefs.Save();
 
         gameObject.SetActive(false);
+        gameUIRoot.SetActive(true);
     }
 }
