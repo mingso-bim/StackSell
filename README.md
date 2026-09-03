@@ -1,6 +1,10 @@
 # Stack & Sell
 
-> Unity로 제작한 3D 모바일 캐주얼 게임. 과일을 모아 등에 쌓고, 옮겨 팔아 Gold를 벌고, 능력치를 강화해 매장을 키운다.
+> Unity로 제작한 3D 모바일 캐주얼 게임. 과일을 모아 등에 쌓고, 옮겨 팔아 Gold를 벌고, 능력치를 강화한다.
+
+<p align="center">
+  <img src="Docs/Images/gameplay.png" width="800">
+</p>
 
 플레이어는 생성 존에서 과일을 모아 캐릭터 뒤에 쌓고, 판매 존으로 옮겨 팔아 Gold를 얻습니다.
 모은 Gold로 이동 속도(Speed)와 적재량(Capacity)을 강화하며, 두 능력치를 모두 최대로 올리면 게임을 클리어합니다.
@@ -36,7 +40,7 @@ Move  →  Collect  →  Stack  →  Sell  →  Earn Gold  →  Upgrade  →  Ga
 
 **아이템 생성 / 수집 / 스택**
 - `SSItemZone` 하나가 `isSellZone` 플래그로 생성 존과 판매 존을 겸함. 존에 머무는 동안 코루틴으로 일정 간격 처리
-- `SSPlayerCollector` 가 수집한 과일을 `stackRoot` 아래 일정 간격으로 쌓고 Lerp로 부드럽게 정렬, `maxCapacity` 로 적재량 제한
+- `SSPlayerCollector` 가 수집한 과일을 `stackRoot` 아래 일정 간격으로 쌓고 Lerp 기반 이동으로 자연스러운 수집 애니메이션 구현, `maxCapacity` 로 적재량 제한
 - 판매 시 스택 상단부터 하나씩 제거되어 판매 존으로 날아가 사라지고 Gold가 증가
 
 **성장 & 밸런스 데이터**
