@@ -34,11 +34,10 @@ public class SSItemZone : MonoBehaviour
 
         SSPlayerCollector collector = other.GetComponent<SSPlayerCollector>();
 
-        if (collector == null)
-        {
-            Debug.LogWarning($"{name}: {other.name}에 SSPlayerCollector가 없어 무시합니다.");
+        // 참조 누락 등으로 collector가 비활성이면 Collect/RemoveOneItem이
+        // 제대로 동작하지 않으므로 존을 시작하지 않는다.
+        if (collector == null || !collector.isActiveAndEnabled)
             return;
-        }
 
         if (isSellZone)
         {
@@ -68,10 +67,7 @@ public class SSItemZone : MonoBehaviour
         SSPlayerCollector collector = other.GetComponent<SSPlayerCollector>();
 
         if (collector == null)
-        {
-            Debug.LogWarning($"{name}: {other.name}에 SSPlayerCollector가 없어 무시합니다.");
             return;
-        }
 
         if (productionCoroutine != null)
         {

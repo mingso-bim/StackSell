@@ -30,9 +30,18 @@ public class SSPlayerCollector : MonoBehaviour
 
     private readonly List<SSItem> collectedItems = new();
 
+    private void Awake()
+    {
+        if (stackRoot == null)
+        {
+            Debug.LogError($"{name}: stackRoot이 설정되지 않아 수집을 비활성화합니다.");
+            enabled = false;
+        }
+    }
+
     public void SetMaxCapacity(int newCapacity)
     {
-        maxCapacity = newCapacity;
+        maxCapacity = Mathf.Max(1, newCapacity);
     }
 
     public bool IsFull()

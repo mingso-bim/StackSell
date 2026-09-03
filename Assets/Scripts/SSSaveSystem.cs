@@ -2,17 +2,10 @@ using System;
 using System.IO;
 using UnityEngine;
 
-[DefaultExecutionOrder(100)]
 public class SSSaveSystem : MonoBehaviour
 {
     [SerializeField]
     private SSPlayerWallet playerWallet;
-
-    [SerializeField]
-    private SSPlayerController playerController;
-
-    [SerializeField]
-    private SSPlayerCollector playerCollector;
 
     [SerializeField]
     private SSPlayerUpgrade playerUpgrade;
@@ -20,6 +13,15 @@ public class SSSaveSystem : MonoBehaviour
     public bool GameCleared { get; private set; }
 
     private string SavePath => Path.Combine(Application.persistentDataPath, "savedata.json");
+
+    private void Awake()
+    {
+        if (playerWallet == null || playerUpgrade == null)
+        {
+            Debug.LogError($"{name}: 참조가 설정되지 않아 저장/불러오기를 비활성화합니다.");
+            enabled = false;
+        }
+    }
 
     private void Start()
     {
@@ -33,8 +35,6 @@ public class SSSaveSystem : MonoBehaviour
             SSSaveData data = new SSSaveData
             {
                 gold = playerWallet.Gold,
-                moveSpeed = playerController.MoveSpeed,
-                maxCapacity = playerCollector.MaxCapacity,
                 speedUpgradeCount = playerUpgrade.SpeedUpgradeCount,
                 capacityUpgradeCount = playerUpgrade.CapacityUpgradeCount,
                 gameCleared = GameCleared,
@@ -68,8 +68,6 @@ public class SSSaveSystem : MonoBehaviour
             }
 
             playerWallet.SetGold(data.gold);
-            playerController.SetMoveSpeed(data.moveSpeed);
-            playerCollector.SetMaxCapacity(data.maxCapacity);
             playerUpgrade.RestoreUpgradeCounts(data.speedUpgradeCount, data.capacityUpgradeCount);
             GameCleared = data.gameCleared;
         }
