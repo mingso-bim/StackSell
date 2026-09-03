@@ -3,7 +3,7 @@
 > Unity로 제작한 3D 모바일 캐주얼 게임. 과일을 모아 등에 쌓고, 옮겨 팔아 Gold를 벌고, 능력치를 강화한다.
 
 <p align="center">
-  <img src="Docs/Images/gameplay.gif" width="800">
+  <img src="Docs/Images/gameplay.gif" width="700">
 </p>
 
 플레이어는 생성 존에서 과일을 모아 캐릭터 뒤에 쌓고, 판매 존으로 옮겨 팔아 Gold를 얻습니다.
